@@ -31,7 +31,10 @@ class UserService(val userRepository: UserRepository, val roleRepository: RoleRe
 
     fun signUserUp(user: User): AuthResponseDTO {
         user.password = passwordEncoder.encode(user.password)
-        val role = roleRepository.findByName("USER")
+        var role = roleRepository.findByName("USER")
+        if(role == null){
+            role = roleRepository.save(Role(1L, "USER", "Normal User role"))
+        }
         val (accessToken, expiresIn) = jwtProvider.createAccessToken(user.username, role)
         val refreshToken = jwtProvider.createRefreshToken(user.username)
 //        user.refreshToken = refreshToken

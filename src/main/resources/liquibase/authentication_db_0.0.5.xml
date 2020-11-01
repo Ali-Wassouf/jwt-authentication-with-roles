@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="initialMigration-0.0.5" author="a.wassouf">
+        <sql>
+            create table refresh_tokens
+            (
+            id      bigserial             not null
+            constraint refresh_tokens_pk
+            primary key,
+            revoked boolean default false not null,
+            value   varchar               not null
+            );
+
+            alter table refresh_tokens
+            owner to unicorn_user;
+
+            create table user_tokens
+            (
+            id               bigserial not null
+            constraint user_tokens_pk
+            primary key,
+            user_id          bigint    not null
+            constraint user_tokens_users_id_fk
+            references users,
+            refresh_token_id bigint    not null
+            constraint user_tokens_refresh_tokens_id_fk
+            references refresh_tokens
+            );
+
+            alter table user_tokens
+            owner to unicorn_user;
+
+            create table devices
+            (
+            id varchar not null
+            constraint devices_pk
+            primary key,
+            os varchar
+            );
+
+            alter table devices
+            owner to unicorn_user;
+
+            create table user_devices
+            (
+            id        bigserial not null
+            constraint user_devices_pk
+            primary key,
+            user_id   bigint    not null
+            constraint user_devices_users_id_fk_7
+            references users,
+            device_id varchar   not null
+            constraint user_devices_devices_id_fk
+            references devices
+            );
+
+            alter table user_devices
+            owner to unicorn_user;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
