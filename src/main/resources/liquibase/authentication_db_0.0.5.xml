@@ -15,9 +15,6 @@
             value   varchar               not null
             );
 
-            alter table refresh_tokens
-            owner to unicorn_user;
-
             create table user_tokens
             (
             id               bigserial not null
@@ -31,8 +28,6 @@
             references refresh_tokens
             );
 
-            alter table user_tokens
-            owner to unicorn_user;
 
             create table devices
             (
@@ -42,8 +37,7 @@
             os varchar
             );
 
-            alter table devices
-            owner to unicorn_user;
+
 
             create table user_devices
             (
@@ -58,8 +52,7 @@
             references devices
             );
 
-            alter table user_devices
-            owner to unicorn_user;
+
         </sql>
     </changeSet>
 </databaseChangeLog>

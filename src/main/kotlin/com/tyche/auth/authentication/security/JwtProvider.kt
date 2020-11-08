@@ -14,11 +14,13 @@ import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import mu.KotlinLogging
+import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
 /**
  * @author Ali Wassouf
  */
+@Component
 class JwtProvider(val customUserDetailsService: CustomUserDetailsService){
 
 

@@ -14,13 +14,26 @@
     <name>authentication</name>
     <description>Demo project for Spring Boot</description>
 
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.3.72</kotlin.version>
         <logback.version>1.2.3</logback.version>
         <kotlin_logging.version>1.6.26</kotlin_logging.version>
         <postgresql.version>42.2.5</postgresql.version>
-        <postgres.testcontainer.version>1.10.5</postgres.testcontainer.version>
+        <postgres.testcontainer.version>1.15.0</postgres.testcontainer.version>
         <mockk.version>1.9</mockk.version>
         <wiremock.version>2.22.0</wiremock.version>
         <feign-version>9.3.1</feign-version>
@@ -39,6 +52,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>2.3.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
