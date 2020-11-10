@@ -37,6 +37,7 @@
         <mockk.version>1.9</mockk.version>
         <wiremock.version>2.22.0</wiremock.version>
         <feign-version>9.3.1</feign-version>
+        <apache.common.lang3.version>3.11</apache.common.lang3.version>
         <liquibase.sql.url>jdbc:postgresql://localhost:5432/rainbow_database</liquibase.sql.url>
         <liquibase.sql.username>unicorn_user</liquibase.sql.username>
         <liquibase.sql.password>magical_password</liquibase.sql.password>
@@ -57,6 +58,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>2.3.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.common.lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>

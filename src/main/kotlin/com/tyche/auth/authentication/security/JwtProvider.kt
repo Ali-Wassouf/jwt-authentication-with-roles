@@ -14,6 +14,7 @@ import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import mu.KotlinLogging
+import org.apache.commons.lang3.time.DateUtils
 import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
@@ -44,8 +45,7 @@ class JwtProvider(val customUserDetailsService: CustomUserDetailsService){
         logger.info { "Creating refresh token " }
         val claims = Jwts.claims().setSubject(username + "URefresh")
         val date = Date()
-        //TODO make validity one year
-        val validity = Date(date.time + Long.MAX_VALUE)
+        val validity = DateUtils.addYears(date,1)
         val refreshToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(date)
@@ -66,7 +66,7 @@ class JwtProvider(val customUserDetailsService: CustomUserDetailsService){
 
     fun resolveToken(req: HttpServletRequest): String? {
         val bearerToken = req.getHeader("Authorization")
-        return if (bearerToken != null && bearerToken.startsWith("$TOKEN_PREFIX ")) {
+        return if (bearerToken != null && bearerToken.startsWith("$TOKEN_PREFIX")) {
             bearerToken.substring(7)
         } else null
     }
