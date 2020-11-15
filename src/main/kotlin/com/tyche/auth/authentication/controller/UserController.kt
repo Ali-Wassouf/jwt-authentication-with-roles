@@ -26,5 +26,10 @@ class UserController(val userService: UserService){
     @PostMapping("/token/refresh", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun refreshToken(@RequestBody refreshTokenRequest: RefreshTokenRequest){
 
+        //todo
+        /**
+         * Make sure the refresh token was issued to this user on this device
+         * If these conditions hold, refresh the token
+         * */
     }
 }
