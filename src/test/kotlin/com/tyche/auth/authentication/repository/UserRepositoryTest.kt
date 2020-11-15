@@ -1,5 +1,7 @@
 package com.tyche.auth.authentication.repository
 
+import com.tyche.auth.authentication.domainobject.Device
+import com.tyche.auth.authentication.domainobject.RefreshTokens
 import com.tyche.auth.authentication.domainobject.Role
 import com.tyche.auth.authentication.domainobject.User
 import org.junit.Assert
@@ -13,6 +15,7 @@ import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.containers.PostgreSQLContainer
 import java.time.Duration
+import java.util.*
 
 /**
  * @author Ali Wassouf
@@ -29,10 +32,12 @@ open class UserRepositoryTest {
     @Test
     fun `when saving a user with a user role, succeed`() {
         userRepository.save(User(1L, "ali", "pass", "email@email.com", false,
-                setOf(Role(1L, "USER", ""))))
+                setOf(Role(1L, "USER", "")), setOf(RefreshTokens(1L, false, "edljlkdg,kmskdfjfkds.lkksdf")), setOf(Device( id = UUID.randomUUID().toString(), os = "IOS"))))
         val user = userRepository.findByUsername("ali")
         Assert.assertTrue( user != null)
         Assert.assertEquals( 1, user.roles.size)
+        Assert.assertEquals(1, user.devices.size)
+        Assert.assertEquals(1, user.refreshTokens.size)
 
 
     }

@@ -29,5 +29,13 @@ class User(
 
         @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinTable(name = "USER_ROLES", joinColumns = [JoinColumn(name = "USER_ID")], inverseJoinColumns = [JoinColumn(name = "ROLE_ID")])
-        var roles: Set<Role>
+        var roles: Set<Role>,
+
+        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinTable(name = "user_tokens", joinColumns = [JoinColumn(name = "USER_ID")], inverseJoinColumns = [JoinColumn(name = "refresh_token_id")])
+        var refreshTokens: Set<RefreshTokens>,
+
+        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinTable(name = "user_devices", joinColumns = [JoinColumn(name = "USER_ID")], inverseJoinColumns = [JoinColumn(name = "device_id")])
+        var devices: Set<Device>
 )
