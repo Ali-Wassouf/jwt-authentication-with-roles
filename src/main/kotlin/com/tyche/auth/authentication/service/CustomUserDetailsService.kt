@@ -14,7 +14,8 @@ import java.util.HashSet
  */
 
 @Service
-class CustomUserDetailsService(val userRepository: UserRepository) : UserDetailsService{
+class CustomUserDetailsService(val userRepository: UserRepository) : UserDetailsService {
+
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByUsername(username)
                 ?: throw UsernameNotFoundException("User '$username' not found")
@@ -28,7 +29,8 @@ class CustomUserDetailsService(val userRepository: UserRepository) : UserDetails
                 .disabled(false)
                 .build()
     }
-    fun getAuthority(user: User): Set<SimpleGrantedAuthority>? {
+
+    private fun getAuthority(user: User): Set<SimpleGrantedAuthority>? {
         val authorities: MutableSet<SimpleGrantedAuthority> = HashSet()
         user.roles.forEach { role -> authorities.add(SimpleGrantedAuthority("ROLE_" + role.name)) }
         return authorities

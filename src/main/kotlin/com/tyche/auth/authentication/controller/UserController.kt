@@ -2,6 +2,7 @@ package com.tyche.auth.authentication.controller
 
 import com.tyche.auth.authentication.datatransferobject.AuthResponseDTO
 import com.tyche.auth.authentication.datatransferobject.RefreshTokenRequest
+import com.tyche.auth.authentication.datatransferobject.SigunpDTO
 import com.tyche.auth.authentication.domainobject.User
 import com.tyche.auth.authentication.service.UserService
 import org.springframework.http.MediaType
@@ -19,7 +20,7 @@ class UserController(val userService: UserService){
 
 
     @PostMapping("/token/issue")
-    fun issueToken(@RequestBody user: User): AuthResponseDTO {
+    fun issueToken(@RequestBody user: SigunpDTO): AuthResponseDTO {
         return userService.signUserUp(user)
     }
 
@@ -29,7 +30,7 @@ class UserController(val userService: UserService){
         //todo
         /**
          * Make sure the refresh token was issued to this user on this device
-         * If these conditions hold, refresh the token
+         * If these conditions hold, refresh the token`
          * */
     }
 }

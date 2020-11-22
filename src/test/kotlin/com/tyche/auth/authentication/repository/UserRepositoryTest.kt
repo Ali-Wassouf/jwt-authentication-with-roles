@@ -35,9 +35,9 @@ open class UserRepositoryTest {
                 setOf(Role(1L, "USER", "")), setOf(RefreshTokens(1L, false, "edljlkdg,kmskdfjfkds.lkksdf")), setOf(Device( id = UUID.randomUUID().toString(), os = "IOS"))))
         val user = userRepository.findByUsername("ali")
         Assert.assertTrue( user != null)
-        Assert.assertEquals( 1, user.roles.size)
-        Assert.assertEquals(1, user.devices.size)
-        Assert.assertEquals(1, user.refreshTokens.size)
+        Assert.assertEquals( 1, user?.roles?.size)
+        Assert.assertEquals(1, user?.devices?.size)
+        Assert.assertEquals(1, user?.refreshTokens?.size)
 
 
     }

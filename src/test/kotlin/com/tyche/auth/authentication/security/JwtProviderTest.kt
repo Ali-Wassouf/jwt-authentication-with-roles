@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.User
 import org.testcontainers.shaded.org.apache.commons.lang.time.DateUtils
 import java.util.*
 import javax.servlet.http.HttpServletRequest
-import kotlin.collections.LinkedHashMap
+
 
 @RunWith(MockitoJUnitRunner::class)
 internal class JwtProviderTest {
@@ -26,9 +26,6 @@ internal class JwtProviderTest {
     val httpServletRequest = mockk<HttpServletRequest>()
 
     val jwtProvider = JwtProvider(customUserDetailsService)
-
-    val testToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGl3YXNzb3VmIiwiYXV0aCI6eyJhdXRob3JpdHkiOiJBRE1JTiJ9LCJpYXQiOjE2MDQ4NDIwNzMsImV4cCI6MTYwNTcwNjA3M30.IabviEXcdIIZn8ATkoSiNsYBf43jczDEudpINQK-WO0"
-
 
     @Test
     fun init() {
@@ -59,12 +56,13 @@ internal class JwtProviderTest {
     @Test
     fun `when getting authentication from a token, return correct user`() {
         every { customUserDetailsService.loadUserByUsername("aliwassouf") }.returns(User("aliwassouf", "password", emptyList()))
-        val authentication = jwtProvider.getAuthentication(testToken)
+        val authentication = jwtProvider.getAuthentication(createValidToken())
         assertEquals("aliwassouf", (authentication.principal as User).username)
     }
 
     @Test
     fun `resolving a request returns a token`() {
+        val testToken = createValidToken()
         every { httpServletRequest.getHeader("Authorization") }.returns("${SecurityConstants.TOKEN_PREFIX}$testToken")
         val returnedToken = jwtProvider.resolveToken(httpServletRequest)
         assertEquals(testToken, returnedToken)
@@ -72,7 +70,7 @@ internal class JwtProviderTest {
 
     @Test
     fun `resolving request returns null`() {
-        every { httpServletRequest.getHeader("Authorization") }.returns(testToken)
+        every { httpServletRequest.getHeader("Authorization") }.returns(createValidToken())
         val returnedToken = jwtProvider.resolveToken(httpServletRequest)
         assertNull(returnedToken)
     }
@@ -85,7 +83,7 @@ internal class JwtProviderTest {
 
     @Test
     fun `when validating a non-valid token throws an excption`() {
-        assertThrows(TokenValidationException::class.java) {jwtProvider.validateToken(createExpiredToken())}
+        assertThrows(TokenValidationException::class.java) { jwtProvider.validateToken(createExpiredToken()) }
     }
 
 
@@ -108,7 +106,7 @@ internal class JwtProviderTest {
     }
 
     private fun createToken(date: Date): String {
-        val claims = Jwts.claims().setSubject("username")
+        val claims = Jwts.claims().setSubject("aliwassouf")
         claims["auth"] = SimpleGrantedAuthority("USER")
 
         val validity = Date(date.time + SecurityConstants.EXPIRATION_TIME)
